@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roman Locher Advisory</title>
+<style>
+  :root {
+    --orange: #F47D4A;
+    --fuchsia: #E1315B;
+    --yellow: #FFEC5C;
+    --blue: #008DCB;
+    --dark: #1a1a1a;
+    --mid: #555;
+    --light: #f9f9f9;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--dark); background: var(--white); }
+
+  nav {
+    position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px); z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #eee;
+  }
+  .nav-logo { font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--dark); }
+  .nav-logo span { color: var(--fuchsia); }
+  nav a { text-decoration: none; color: var(--mid); font-size: 0.9rem; letter-spacing: 0.04em; transition: color 0.2s; }
+  nav a:hover { color: var(--fuchsia); }
+  .nav-links { display: flex; gap: 2.5rem; }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding: 0 4rem; padding-top: 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-accent {
+    position: absolute; top: 0; right: 0;
+    width: 35vw; height: 100%;
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 50%, var(--fuchsia) 100%);
+    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+    opacity: 0.12;
+  }
+  .hero-tag {
+    display: inline-block; background: var(--yellow); color: var(--dark);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.4rem 1rem; margin-bottom: 2rem; border-radius: 2px;
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800;
+    line-height: 1.05; letter-spacing: -0.02em; max-width: 700px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--fuchsia), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-sub { font-size: 1.15rem; color: var(--mid); max-width: 480px; margin-top: 1.5rem; line-height: 1.7; }
+  .hero-cta { margin-top: 2.8rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-block; padding: 0.9rem 2rem;
+    font-size: 0.9rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; border-radius: 3px; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .btn-primary { background: var(--fuchsia); color: var(--white); }
+  .btn-outline { background: transparent; color: var(--dark); border: 2px solid var(--dark); }
+  .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+  section { padding: 6rem 4rem; }
+  .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); margin-bottom: 1rem; }
+  h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+
+  .about { background: var(--light); }
+  .about-inner { max-width: 600px; }
+  .about-inner p { font-size: 1.05rem; color: var(--mid); line-height: 1.8; margin-bottom: 1rem; }
+
+  .services-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 3rem; max-width: 700px; }
+  .service-card {
+    padding: 2rem 2.5rem; border-left: 4px solid transparent;
+    background: var(--light); border-radius: 2px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .service-card:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+  .service-card:nth-child(1) { border-color: var(--orange); }
+  .service-card:nth-child(2) { border-color: var(--fuchsia); }
+  .service-card:nth-child(3) { border-color: var(--blue); }
+  .service-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .service-card p { font-size: 0.95rem; color: var(--mid); line-height: 1.7; }
+
+  .focus { background: var(--dark); color: var(--white); }
+  .focus .section-label { color: var(--yellow); }
+  .focus h2 { color: var(--white); }
+  .focus-text { font-size: 1.1rem; color: #aaa; max-width: 600px; line-height: 1.8; }
+
+  .contact { text-align: center; }
+  .contact h2 { max-width: 500px; margin: 0 auto 1rem; }
+  .contact p { color: var(--mid); font-size: 1rem; margin-bottom: 2.5rem; }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+
+  footer {
+    background: var(--light); padding: 2rem 4rem;
+    display: flex; flex-direction: column; gap: 0.5rem;
+    font-size: 0.8rem; color: #aaa; border-top: 1px solid #eee;
+  }
+  .color-bar { height: 5px; background: linear-gradient(90deg, var(--orange), var(--fuchsia), var(--yellow), var(--blue)); }
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, .hero { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Roman Locher <span>Advisory</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#focus">Focus</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-accent"></div>
+  <div class="hero-tag">Strategy · Advisory · Transformation</div>
+  <h1>Clarity for<br><em>complex</em><br>change.</h1>
+  <p class="hero-sub">Strategy and management consulting with a focus on organizational development – for technology companies and those who aspire to become one.</p>
+  <div class="hero-cta">
+    <a href="#services" class="btn btn-primary">Explore Services</a>
+    <a href="https://de.linkedin.com/in/locherro" target="_blank" class="btn btn-outline">LinkedIn Profile →</a>
+  </div>
+</section>
+
+<div class="color-bar"></div>
+
+<section class="about" id="about">
+  <div class="about-inner fade-in">
+    <div class="section-label">About</div>
+    <h2>Roman Locher</h2>
+    <p>As an independent advisor, I work with companies at the intersection of strategy, leadership, and technological change. My approach combines analytical depth with pragmatic execution.</p>
+    <p>Through <strong>Roman Locher Advisory UG</strong>, I help organizations find the right direction – and pursue it with clarity and conviction.</p>
+    <br>
+    <a href="https://de.linkedin.com/in/locherro" target="_blank" class="btn btn-primary" style="display:inline-block; margin-top:0.5rem;">Connect on LinkedIn →</a>
+  </div>
+</section>
+
+<section id="services">
+  <div class="fade-in">
+    <div class="section-label">Services</div>
+    <h2>What I do for you</h2>
+  </div>
+  <div class="services-list fade-in">
+    <div class="service-card">
+      <h3>Strategy</h3>
+      <p>Setting direction, defining priorities, enabling confident decisions.</p>
+    </div>
+    <div class="service-card">
+      <h3>Management</h3>
+      <p>Strengthening leadership structures and organizational effectiveness.</p>
+    </div>
+    <div class="service-card">
+      <h3>Organization</h3>
+      <p>Developing structures, processes, and culture with purpose.</p>
+    </div>
+  </div>
+</section>
+
+<div class="color-bar"></div>
+
+<section class="focus" id="focus">
+  <div class="fade-in">
+    <div class="section-label">Focus</div>
+    <h2>Technology as a driver</h2>
+    <p class="focus-text">My focus is on companies that see technology as a core element of their business model – whether established players or organizations transforming into tech companies.</p>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="fade-in">
+    <div class="section-label" style="text-align:center;">Contact</div>
+    <h2>Let's talk</h2>
+    <p>Interested in working together? I look forward to the conversation.</p>
+    <div class="contact-links">
+      <a href="https://de.linkedin.com/in/locherro" target="_blank" class="btn btn-primary">Reach out on LinkedIn →</a>
+    </div>
+  </div>
+</section>
+
+<div class="color-bar"></div>
+<footer>
+  <div style="font-weight: 700; color: #888; letter-spacing: 0.1em; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem;">Imprint</div>
+  <div>© 2026 Roman Locher Advisory UG (haftungsbeschränkt)</div>
+  <div>Bädertörle 5, 71332 Waiblingen · <a href="mailto:hello@locherro.com" style="color: #aaa; text-decoration: none;">hello@locherro.com</a></div>
+  <div>Court of Registration: Amtsgericht Stuttgart, HRB 801524</div>
+  <div>Managing Director: Roman Locher · Tax No.: 90495/27155</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
